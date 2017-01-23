@@ -21,8 +21,8 @@ import { AppReducer } from './app/shared/ngrx/index';
 import { AnalyticsModule } from './app/shared/analytics/analytics.module';
 import { MultilingualModule, translateLoaderFactory } from './app/shared/i18n/multilingual.module';
 import { MultilingualEffects } from './app/shared/i18n/index';
-import { SampleModule } from './app/shared/sample/sample.module';
-import { NameListEffects } from './app/shared/sample/index';
+import { GoModule } from './app/shared/go/go.module';
+// import { NameListEffects } from './app/shared/sample/index';
 
 // config
 import { Config, WindowService, ConsoleService } from './app/shared/core/index';
@@ -33,10 +33,9 @@ if (String('<%= BUILD_TYPE %>') === 'dev') {
 }
 
 // sample config (extra)
-import { AppConfig } from './app/shared/sample/services/app-config';
-import { MultilingualService } from './app/shared/i18n/services/multilingual.service';
-// custom i18n language support
-MultilingualService.SUPPORTED_LANGUAGES = AppConfig.SUPPORTED_LANGUAGES;
+// import { AppConfig } from './app/shared/sample/services/app-config';
+// import { MultilingualService } from './app/shared/i18n/services/multilingual.service';
+
 
 let routerModule = RouterModule.forRoot(routes);
 
@@ -70,11 +69,11 @@ export function cons() {
       deps: [Http],
       useFactory: (translateLoaderFactory)
     }]),
-    SampleModule,
+    GoModule,
     StoreModule.provideStore(AppReducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    EffectsModule.run(MultilingualEffects),
-    EffectsModule.run(NameListEffects)
+    // EffectsModule.run(MultilingualEffects),
+    // EffectsModule.run(NameListEffects)
   ],
   declarations: [
     APP_COMPONENTS

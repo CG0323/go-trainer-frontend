@@ -9,10 +9,16 @@ import { SeedAdvancedConfig } from './seed-advanced.config';
 export class ProjectConfig extends SeedAdvancedConfig {
 
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
-
+  FONTS_DEST = `${this.APP_DEST}/fonts`;
+  FONTS_SRC = ['node_modules/font-awesome/fonts/**'];
+  PRIME_NG_THEME = 'bootstrap';
+  CSS_IMAGE_DEST = `${this.CSS_DEST}/images`;
+  CSS_IMAGE_SRC = ['node_modules/primeng/resources/themes/' + this.PRIME_NG_THEME + '/images/**'];
+  THEME_FONTS_DEST = `${this.APP_DEST}/css/fonts`;
+  THEME_FONTS_SRC = ['node_modules/primeng/resources/themes/' + this.PRIME_NG_THEME + '/fonts/**'];
   constructor() {
     super();
-    // this.APP_TITLE = 'Put name of your app here';
+    this.APP_TITLE = 'go-trainer-frontend';
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;
@@ -21,6 +27,9 @@ export class ProjectConfig extends SeedAdvancedConfig {
     this.NPM_DEPENDENCIES = [
       ...this.NPM_DEPENDENCIES,
       // {src: 'jquery/dist/jquery.min.js', inject: 'libs'},
+      { src: 'primeng/resources/primeng.min.css', inject: true },
+      { src: 'primeng/resources/themes/bootstrap/theme.css', inject: true },
+      { src: 'font-awesome/css/font-awesome.min.css', inject: true },
     ];
 
     // Add `local` third-party libraries to be injected/bundled.
@@ -42,6 +51,7 @@ export class ProjectConfig extends SeedAdvancedConfig {
 
     /* Add to or override NPM module configurations: */
     // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
+    
   }
 
 }

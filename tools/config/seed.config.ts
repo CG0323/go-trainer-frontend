@@ -416,7 +416,7 @@ export class SeedConfig {
       '@angular/platform-browser-dynamic/testing':
       'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic-testing.umd.js',
       '@angular/router/testing': 'node_modules/@angular/router/bundles/router-testing.umd.js',
-
+      'primeng': `node_modules/primeng`,
       'app/*': '/app/*',
       // For test config
       'dist/dev/*': '/base/dist/dev/*',
