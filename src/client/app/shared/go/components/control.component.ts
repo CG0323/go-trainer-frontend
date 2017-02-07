@@ -1,9 +1,5 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild} from '@angular/core';
-import { MenuItem, SlideMenuModule } from 'primeng/primeng';
-import { IAppState, getMenuItems,getProblemRaws, getIsFirstProblem, getIsLastProblem,getIsNotInProblem } from '../../ngrx/index';
-import { Store } from '@ngrx/store';
-import { Observable} from 'rxjs/Observable';
-import * as directory from '../actions/directory.action';
+import { Component, Input, Output, ViewChild, EventEmitter} from '@angular/core';
+import { MenuItem} from 'primeng/primeng';
 import { ProblemRaw } from '../models/index'
 
 
@@ -16,68 +12,58 @@ import { ProblemRaw } from '../models/index'
   ],
 })
 
-
-
-export class ControlComponent implements OnInit, OnDestroy {
-      @ViewChild('menu') menu;
-      private directorySubscription;
-      private problemsSubscription;
-      private currentProblemSubscription;
-      private isFirst$:Observable<boolean>;
-      private isLast$: Observable<boolean>;
-      private isNotInProblem$: Observable<boolean>;
-      private menuItems:MenuItem[];
-      public problems$: Observable<ProblemRaw[]>;
-      constructor(private store: Store<IAppState>) {
-         this.directorySubscription = store.let(getMenuItems)
-         .subscribe((items:any[]) => {
-            this.menuItems = items.map(item=>this.appendCommand(item));
-           })
-         this.problems$ = store.let(getProblemRaws);
-         this.isFirst$ = store.let(getIsFirstProblem);
-         this.isLast$ = store.let(getIsLastProblem);
-         this.isNotInProblem$ = store.let(getIsNotInProblem);
-    }
-    
-    ngOnInit():void {
-       
-    }
-    
-    ngOnDestroy() {
-        this.directorySubscription.unsubscribe();
+export class ControlComponent {
+      @Input() isFirst:boolean;
+      @Input() isLast:boolean;
+      @Input() isNotInProblem:boolean;
+      @Input() problems: ProblemRaw[];
+      @Output() redoProblem = new EventEmitter<any>();
+      @Output() nextProblem = new EventEmitter<any>();
+      @Output() prevProblem = new EventEmitter<any>();
+      constructor() {
     }
 
-    appendCommand = (item:any)=>{
-      if(item.id){
-        item.command = (event) => {
-          this.store.dispatch(new directory.SelectDirectoryAction(event.item.id));
-        };
-        return item;
+    onRedoProblem(){
+      this.redoProblem.emit();
+    }
+
+    onNextProblem(){
+      this.nextProblem.emit();
+    }
+
+    onPrevProblem(){
+      this.prevProblem.emit();
+    }
+
+    getPrevLable(){
+      if(this.isInMobile()){
+        return " ";
+      }else{
+        return "上一道题";
       }
-      else{
-          item.items = item.items.map(i=>this.appendCommand(i));
-          return item;
+    }
+    getRedoLable(){
+      if(this.isInMobile()){
+        return " ";
+      }else{
+        return "重做本题";
+      }
+    }
+    getNextLable(){
+      if(this.isInMobile()){
+        return " ";
+      }else{
+        return "下一道题";
+      }
+    }
+
+    isInMobile(){
+        let innerWidth = window.screen.width;
+        if(innerWidth <= 800){
+            return true;
+        }else{
+            return false;
         }
-    }
-
-    selectDirectory(id:string){
-      this.store.dispatch(new directory.SelectDirectoryAction(id));
-    }
-
-    selectProblem(problem:ProblemRaw){
-      this.store.dispatch(new directory.SelectProblemAction(problem));
-    }
-
-    redoProblem(){
-      this.store.dispatch(new directory.ReloadProblemAction());
-    }
-
-    nextProblem(){
-      this.store.dispatch(new directory.NextProblemAction());
-    }
-
-    previousProblem(){
-      this.store.dispatch(new directory.PreviousProblemAction());
     }
 
 }

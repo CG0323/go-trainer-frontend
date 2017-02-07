@@ -19,8 +19,6 @@ import { routes } from './app/components/app.routes';
 import { CoreModule } from './app/shared/core/core.module';
 import { AppReducer } from './app/shared/ngrx/index';
 import { AnalyticsModule } from './app/shared/analytics/analytics.module';
-import { MultilingualModule, translateLoaderFactory } from './app/shared/i18n/multilingual.module';
-import { MultilingualEffects } from './app/shared/i18n/index';
 import { GoModule } from './app/shared/go/go.module';
 // import { DirectoryEffects } from './app/shared/go/index';
 
@@ -35,9 +33,6 @@ if (String('<%= BUILD_TYPE %>') === 'dev') {
 }
 
 // sample config (extra)
-// import { AppConfig } from './app/shared/sample/services/app-config';
-// import { MultilingualService } from './app/shared/i18n/services/multilingual.service';
-
 
 let routerModule = RouterModule.forRoot(routes);
 
@@ -66,16 +61,9 @@ export function cons() {
     ]),
     routerModule,
     AnalyticsModule,
-    MultilingualModule.forRoot([{
-      provide: TranslateLoader,
-      deps: [Http],
-      useFactory: (translateLoaderFactory)
-    }]),
     GoModule,
     StoreModule.provideStore(AppReducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    // EffectsModule.run(MultilingualEffects),
-    // EffectsModule.run(DirectoryEffects)
   ],
   declarations: [
     APP_COMPONENTS

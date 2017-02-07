@@ -16,7 +16,7 @@ export interface IBoardState {
 export const initialBoardState: IBoardState = {
   textMarkups:<Markup[]>[],
   trMarkups: <Markup[]>[],
-  msgs: <Message[]>[],
+  msgs: [{severity:'info', summary:'', detail: ''}],
   status: BoardStatus.Disabled,
   currentNode: <KNode>null,
   stones: <Stone[]>[]

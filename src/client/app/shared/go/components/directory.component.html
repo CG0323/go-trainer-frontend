@@ -1,0 +1,7 @@
+<div class="container">
+    <p-slideMenu #menu [viewportHeight]="400" [model]="menuItems" [popup]="true">
+    </p-slideMenu>
+    <div class="item">
+        <button #btn type="button" pButton icon="fa fa-list" [label]="getSelectLabel()" (click)="menu.toggle($event)"></button>
+    </div>
+</div>

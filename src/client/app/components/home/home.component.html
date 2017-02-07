@@ -8,7 +8,14 @@
 </div>-->
 
 <div class="main">
-    <go-control class="control"></go-control>
-    <go-board class="board"></go-board>
-
+    <div class="control">
+        <go-directory #directory [menuItems]="menuItems">
+        </go-directory>
+        <go-control [isFirst]="isFirst$|async" [isLast]="isLast$|async" [isNotInProblem]="isNotInProblem$|async" [problems]="problems$|async" (selectDirectory)="onSelectDirectory($event)" (redoProblem)="onRedoProblem()" (nextProblem)="onNextProblem()" (prevProblem)="onPrevProblem()">
+        </go-control>
+    </div>
+    <div class="board">
+        <go-board class="board" [textMarkups]="textMarkups$|async" [trMarkups]="trMarkups$|async" [msgs]="msgs$|async" [status]="boardStatus$|async" [stones]="stones$|async" (boardClick)="onClick($event)">
+        </go-board>
+    </div>
 </div>

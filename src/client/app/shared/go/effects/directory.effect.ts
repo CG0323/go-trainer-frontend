@@ -41,7 +41,7 @@ export class DirectoryEffects {
     // nothing reacting to failure at moment but you could if you want (here for example)
     .catch(() => Observable.of(new directory.ProblemsLoadingFailedAction()));
   
-    @Effect() problemLoaded$: Observable<Action> = this.actions$
+    @Effect() problemsLoaded$: Observable<Action> = this.actions$
     .ofType(directory.ActionTypes.PROBLEMS_LOADED)
     .withLatestFrom(this.store.let(getProblemRaws))
     .map(([action,problemRaws]) => {

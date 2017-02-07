@@ -1,12 +1,9 @@
 // app
-import {Component, Input, OnInit, OnDestroy} from '@angular/core';
-import { IAppState,getTextMarkups,getTrMarkups,getMsgs,getStatus,getStones } from '../../ngrx/index';
+import { Component, Input, Output, ViewChild, EventEmitter} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable} from 'rxjs/Observable';
 import { CoreService} from '../services/index'
 import { Message} from 'primeng/primeng'
 import { Markup, BoardStatus,Stone} from '../models/index'
-import * as board from '../actions/board.action';
 @Component({
   moduleId: module.id,
   selector: 'go-board',
@@ -16,53 +13,25 @@ import * as board from '../actions/board.action';
   ],
 })
 
-export class BoardComponent implements OnInit, OnDestroy {
-    
+export class BoardComponent {
+    @Input() textMarkups:Markup[];
+    @Input() trMarkups:Markup[];
+    @Input() msgs:Message[];
+    @Input() status:BoardStatus;
+    @Input() stones:Stone[];
+    @Output() boardClick = new EventEmitter<any>();
     dim: number = 19;                           
     lines = CoreService.getLines(19);                  
     stars = CoreService.getStars(19);                  
     staticGrid: number[][] = CoreService.createGrid();
     coordinates : string[] = CoreService.getCoordinates();
 
-    public grid$: Observable<number[][]>;
-    public textMarkups$: Observable<Markup[]>;
-    public trMarkups$: Observable<Markup[]>;
-    public msgs$ : Observable<Message[]>;
-    public status$: Observable<BoardStatus>;
-    private enabled:boolean;
-    private correct:boolean;
-    private wrong:boolean;
-    private subscription;
-    private stoneSubscription;
-    private stones: Stone[];
+    constructor() {
 
-    constructor(private store: Store<IAppState>) {
-      this.textMarkups$ = store.let(getTextMarkups);
-      this.trMarkups$ = store.let(getTrMarkups);
-      this.msgs$ = store.let(getMsgs);
-      this.status$ = store.let(getStatus);
-
-      this.subscription = this.status$.subscribe(status=>{
-        this.enabled = status == BoardStatus.Enabled;
-        this.correct = status == BoardStatus.Right;
-        this.wrong = status == BoardStatus.Wrong;
-      });
-      this.stoneSubscription = store.let(getStones).subscribe(stones=>{
-        this.stones = <Stone[]>stones;
-      })
-    }
-    
-    ngOnInit():void {
-
-    }
-    
-    ngOnDestroy() {
-      this.subscription.unsubscribe();
-      this.stoneSubscription.unsubscribe();
     }
 
     onClick(i:number,j:number) {
-      this.store.dispatch(new board.MoveAction({x:i,y:j,c:1}));
+      this.boardClick.emit({x:i,y:j});
     }
 
     getTrianglePoints(markup: any): string{

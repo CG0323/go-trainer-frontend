@@ -21,7 +21,9 @@ export function boardReducer(
       }
       var msgs:Message[] = [];
       if(root.comment){
-        msgs.push({severity:'info', summary:'题目', detail: root.comment});
+        msgs.push({severity:'info', summary:'', detail: root.comment});
+      }else{
+        msgs.push({severity:'info', summary:'', detail: ''});
       }
       var textMarkups:Markup[] = [];
       var trMarkups:Markup[] = [];
@@ -46,11 +48,9 @@ export function boardReducer(
       if(!nextNode){
         status = BoardStatus.Wrong;
         msgs[0].severity = "error"
-        // msgs.push({severity:"error", summary: "答题错误", detail:"落子错误，本题结束"});
       }else if(nextNode.comment == "RIGHT"){
         status = BoardStatus.Right;
         msgs[0].severity = "success"
-        // msgs.push({severity:"success", summary: "回答正确", detail:"太棒了"});
       }else{
         if(nextNode.children && nextNode.children.length > 0){
           nextNode = nextNode.children[0];
@@ -59,7 +59,6 @@ export function boardReducer(
           if(!nextNode.children || nextNode.children.length==0){
             status = BoardStatus.Wrong;
             msgs[0].severity = "error"
-            // msgs.push({severity:"error", summary: "答题错误", detail:"落子错误，本题结束"});
           }
         }
       }
