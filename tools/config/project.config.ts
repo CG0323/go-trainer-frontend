@@ -52,7 +52,13 @@ export class ProjectConfig extends SeedAdvancedConfig {
 
     /* Add to or override NPM module configurations: */
     // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
-    
+    this.mergeObject(this.SYSTEM_CONFIG_DEV['paths'], {'angular2-cookie': 'node_modules/angular2-cookie/bundles/angular2-cookie.js'});
+    this.mergeObject(this.SYSTEM_BUILDER_CONFIG['packages'], {
+        'angular2-cookie': {
+        main: 'core.js',
+        defaultExtension: 'js'
+      }
+    });
   }
 
 }

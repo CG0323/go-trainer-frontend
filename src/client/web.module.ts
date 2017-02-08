@@ -35,7 +35,7 @@ if (String('<%= BUILD_TYPE %>') === 'dev') {
 
 // sample config (extra)
 
-let routerModule = RouterModule.forRoot(routes);
+let routerModule = RouterModule.forRoot(routes, {useHash: true});
 
 if (String('<%= TARGET_DESKTOP %>') === 'true') {
   Config.PLATFORM_TARGET = Config.PLATFORMS.DESKTOP;
