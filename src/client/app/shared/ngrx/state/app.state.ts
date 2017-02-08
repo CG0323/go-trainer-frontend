@@ -39,7 +39,7 @@ import { combineReducers } from '@ngrx/store';
  */
 
 import * as fromGo from '../../go/index';
-import { IDirectoryState, IBoardState } from '../../go/index';
+import { IDirectoryState, IBoardState, IUserState } from '../../go/index';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -48,6 +48,7 @@ import { IDirectoryState, IBoardState } from '../../go/index';
 export interface IAppState {
   directory: fromGo.IDirectoryState;
   board: fromGo.IBoardState;
+  user: fromGo.IUserState;
 };
 
 /**
@@ -59,7 +60,8 @@ export interface IAppState {
  */
 const reducers = {
   directory: fromGo.directoryReducer,
-  board: fromGo.boardReducer
+  board: fromGo.boardReducer,
+  user: fromGo.userReducer
 };
 
 const developmentReducer: ActionReducer<IAppState> = compose(storeFreeze, combineReducers)(reducers);
@@ -79,6 +81,9 @@ export function getDirectoryState(state$: Observable<IAppState>): Observable<IDi
 export function getBoardState(state$: Observable<IAppState>): Observable<IBoardState> {
   return state$.select(s => s.board);
 }
+export function getUserState(state$: Observable<IAppState>): Observable<IUserState> {
+  return state$.select(s => s.user);
+}
 
 export const getMenuItems: any = compose(fromGo.getMenuItems, getDirectoryState);
 export const getProblemRaws: any = compose(fromGo.getProblemRaws, getDirectoryState);
@@ -91,3 +96,4 @@ export const getStones: any = compose(fromGo.getStones, getBoardState);
 export const getIsFirstProblem: any = compose(fromGo.getIsFirstProblem, getDirectoryState);
 export const getIsLastProblem: any = compose(fromGo.getIsLastProblem, getDirectoryState);
 export const getIsNotInProblem: any = compose(fromGo.getIsNotInProblem, getDirectoryState);
+export const getIsLoggedIn:any = compose(fromGo.getIsLoggedIn, getUserState);

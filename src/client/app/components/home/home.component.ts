@@ -1,5 +1,5 @@
 // libs
-import { Component, ElementRef, ViewChild,OnInit, OnDestroy, } from '@angular/core';
+import { Component, ElementRef, ViewChild,OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { MenuItem, SlideMenuModule,Message } from 'primeng/primeng';
@@ -62,15 +62,21 @@ export class HomeComponent implements OnInit, OnDestroy  {
 
   appendCommand2MenuItem = (item:any)=>{
       if(item.id){
-        item.command = (event) => {
+        let fn = (event) => {
           this.store.dispatch(new directory.SelectDirectoryAction(event.item.id));
           this.directory.hideMenu();
         };
-        return item;
+        return Object.assign({},item, {command: fn})
+        // item.command = (event) => {
+        //   this.store.dispatch(new directory.SelectDirectoryAction(event.item.id));
+        //   this.directory.hideMenu();
+        // };
+        // return item;
       }
       else{
-          item.items = item.items.map(i=>this.appendCommand2MenuItem(i));
-          return item;
+        return Object.assign({}, item, {items:item.items.map(i=>this.appendCommand2MenuItem(i))})
+          // item.items = item.items.map(i=>this.appendCommand2MenuItem(i));
+          // return item;
       }
   }
   onSelectDirectory(id:string){

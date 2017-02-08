@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 import { GO_COMPONENTS } from './components/index';
 import { SlideMenuModule, ButtonModule,DataGridModule,MessagesModule,TieredMenuModule} from 'primeng/primeng';
 import { GO_PROVIDERS } from './services/index';
-import { DirectoryEffects,BoardEffects } from './index';
+import { DirectoryEffects,BoardEffects, UserEffects } from './index';
 import { EffectsModule } from '@ngrx/effects';
 
 /**
@@ -28,7 +28,8 @@ import { EffectsModule } from '@ngrx/effects';
     ButtonModule,
     DataGridModule,
     EffectsModule.run(DirectoryEffects),
-    EffectsModule.run(BoardEffects)
+    EffectsModule.run(BoardEffects),
+    EffectsModule.run(UserEffects)
   ],
   declarations: [
     GO_COMPONENTS

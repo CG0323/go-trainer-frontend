@@ -7,23 +7,17 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 // module
 import {CoreService } from '../services/index';
-import * as directory from '../actions/directory.action';
-import * as board from '../actions/board.action';
-import {KNode, BoardStatus} from '../models/index'
+import * as user from '../actions/user.action';
+
 import {getStatus} from '../../ngrx/index'
 
 @Injectable()
-export class BoardEffects {
+export class UserEffects {
 
   @Effect() move$: Observable<Action> = this.actions$
-    .ofType(board.ActionTypes.MOVE)
-    .delay(200)
-    .withLatestFrom(this.store.let(getStatus))
-    .map(([action,status]) => {
-      if(status == BoardStatus.Right){
-        return new directory.NextProblemAction();
-      }
-      return new directory.EmptyAction()
+    .ofType(user.ActionTypes.LOGIN)
+    .map(action => {
+      return new user.LoginSucceededAction({username:action.payload.username});
     })
 
   constructor(

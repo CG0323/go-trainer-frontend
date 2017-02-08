@@ -25,6 +25,7 @@ import { GoModule } from './app/shared/go/go.module';
 // config
 import { Config, WindowService, ConsoleService } from './app/shared/core/index';
 
+import {ButtonModule} from 'primeng/primeng';
 
 Config.PLATFORM_TARGET = Config.PLATFORMS.WEB;
 if (String('<%= BUILD_TYPE %>') === 'dev') {
@@ -61,6 +62,7 @@ export function cons() {
     ]),
     routerModule,
     AnalyticsModule,
+    ButtonModule,
     GoModule,
     StoreModule.provideStore(AppReducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
