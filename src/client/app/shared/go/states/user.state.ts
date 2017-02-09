@@ -1,18 +1,18 @@
 import { Observable } from 'rxjs/Observable';
-import { } from '../models/index';
+import { LoginStatus} from '../models/index';
 
 
 
 export interface IUserState {
-  isLoggedIn: boolean;
+  loginStatus: LoginStatus;
 }
 
 export const initialUserState: IUserState = {
-  isLoggedIn: false
+  loginStatus: LoginStatus.LoggedOut
 };
 
-export function getIsLoggedIn(state$: Observable<IUserState>) {
-  return state$.select(state => state.isLoggedIn);
+export function getLoginStatus(state$: Observable<IUserState>) {
+  return state$.select(state => state.loginStatus);
 } 
 
 

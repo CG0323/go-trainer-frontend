@@ -10,9 +10,9 @@ export function boardReducer(
 ): IBoardState {
   switch (action.type) {
     case actions.ActionTypes.INIT:{
-      var root = <KNode>action.payload;
-      var setup = root.setup;
-      var stones:Stone[] = [];
+      let root = <KNode>action.payload;
+      let setup = root.setup;
+      let stones:Stone[] = [];
       if(setup){
         for(var i = 0; i < setup.length; i++){
           var move = setup[i];

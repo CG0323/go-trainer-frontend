@@ -3,7 +3,7 @@ import { Component, ElementRef, ViewChild,OnInit, OnDestroy } from '@angular/cor
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { MenuItem, SlideMenuModule,Message } from 'primeng/primeng';
-import { IAppState, getTextMarkups,getTrMarkups,getMsgs,getStatus,getStones,getMenuItems,getProblemRaws, getIsFirstProblem, getIsLastProblem,getIsNotInProblem } from '../../shared/ngrx/index';
+import { IAppState, getTextMarkups,getTrMarkups,getMsgs,getStatus,getTurn,getStones,getMenuItems,getProblemRaws, getIsFirstProblem, getIsLastProblem,getIsNotInProblem } from '../../shared/ngrx/index';
 import * as board from '../../shared/go/actions/board.action';
 import * as directory from '../../shared/go/actions/directory.action';
 import { ProblemRaw,Markup, BoardStatus,Stone} from '../../shared/go/models/index'
@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy  {
   private textMarkups$: Observable<Markup[]>;
   private trMarkups$: Observable<Markup[]>;
   private msgs$ : Observable<Message[]>;
+  private turn$: Observable<number>;
   private boardStatus$: Observable<BoardStatus>;
   private stones$: Observable<Stone[]>;
   private stones: Stone[];
@@ -49,6 +50,7 @@ export class HomeComponent implements OnInit, OnDestroy  {
     this.msgs$ = store.let(getMsgs);
     this.boardStatus$ = store.let(getStatus);
     this.stones$ = store.let(getStones);
+    this.turn$ = store.let(getTurn);
   }
 
   ngOnInit():void {
@@ -67,16 +69,9 @@ export class HomeComponent implements OnInit, OnDestroy  {
           this.directory.hideMenu();
         };
         return Object.assign({},item, {command: fn})
-        // item.command = (event) => {
-        //   this.store.dispatch(new directory.SelectDirectoryAction(event.item.id));
-        //   this.directory.hideMenu();
-        // };
-        // return item;
       }
       else{
         return Object.assign({}, item, {items:item.items.map(i=>this.appendCommand2MenuItem(i))})
-          // item.items = item.items.map(i=>this.appendCommand2MenuItem(i));
-          // return item;
       }
   }
   onSelectDirectory(id:string){
@@ -95,8 +90,8 @@ export class HomeComponent implements OnInit, OnDestroy  {
       this.store.dispatch(new directory.PreviousProblemAction());
   }
 
-  onClick(coord:{x:number,y:number}) {
-      this.store.dispatch(new board.MoveAction({x:coord.x,y:coord.y,c:1}));
+  onClick(coord:{x:number,y:number, c:number}) {
+      this.store.dispatch(new board.MoveAction({x:coord.x,y:coord.y,c:coord.c}));
   }
 
 }

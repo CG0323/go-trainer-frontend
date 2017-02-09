@@ -15,7 +15,7 @@
         </go-control>
     </div>
     <div class="board">
-        <go-board class="board" [textMarkups]="textMarkups$|async" [trMarkups]="trMarkups$|async" [msgs]="msgs$|async" [status]="boardStatus$|async" [stones]="stones$|async" (boardClick)="onClick($event)">
+        <go-board class="board" [textMarkups]="textMarkups$|async" [trMarkups]="trMarkups$|async" [msgs]="msgs$|async" [status]="boardStatus$|async" [stones]="stones$|async" [turn]="turn$|async" (boardClick)="onClick($event)">
         </go-board>
     </div>
 </div>

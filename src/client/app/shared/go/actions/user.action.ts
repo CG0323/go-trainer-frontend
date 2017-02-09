@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
 import { type } from '../../core/utils/type';
 import { USER } from '../common/category.common';
-import { KNode,Move } from '../models/index'
-
+import { LoginStatus} from '../models/index';
 /**
  * For each action type in an action group, make a simple
  * enum object for all of this group's action types.
@@ -12,13 +11,19 @@ import { KNode,Move } from '../models/index'
  * action types in the application are unique.
  */
 export interface IUserActions {
+  INIT: string,
+  INITIALIZED: string,
   LOGIN: string;
-  LOGIN_SUCCEEDED: string
+  LOGIN_RESULT: string;
+  IDLE: string;
 }
 
 export const ActionTypes: IUserActions = {
+  INIT: type(`${USER} Init`),
+  INITIALIZED: type(`${USER} Initialized`),
   LOGIN: type(`${USER} Login`),
-  LOGIN_SUCCEEDED: type(`${USER} Login Succeeded`)
+  LOGIN_RESULT: type(`${USER} Login Result`),
+  IDLE: type(`${USER} Idle`),
 };
 
 /**
@@ -28,14 +33,30 @@ export const ActionTypes: IUserActions = {
  *
  * See Discriminated Unions: https://www.typescriptlang.org/docs/handbook/advanced-types.html#discriminated-unions
  */
+
+export class InitAction implements Action {
+  type = ActionTypes.INIT;
+  payload:string = null;
+}
+
+export class InitilizedAction implements Action {
+  type = ActionTypes.INITIALIZED;
+  constructor(public payload: {loginStatus:LoginStatus}) { }
+}
+
 export class LoginAction implements Action {
   type = ActionTypes.LOGIN;
   constructor(public payload: {username:string, password:string}) { }
 }
 
-export class LoginSucceededAction implements Action {
-  type = ActionTypes.LOGIN_SUCCEEDED;
-  constructor(public payload: {username:string}) { }
+export class LoginResultAction implements Action {
+  type = ActionTypes.LOGIN_RESULT;
+  constructor(public payload: {loginStatus:LoginStatus}) { }
+}
+
+export class LoginIdleAction implements Action {
+  type = ActionTypes.IDLE;
+  payload:string = null;
 }
 
 
@@ -44,5 +65,8 @@ export class LoginSucceededAction implements Action {
  * so that reducers can easily compose action types
  */
 export type Actions
-  = LoginAction
-  |LoginSucceededAction
+  = InitAction
+  |InitilizedAction
+  |LoginAction
+  |LoginResultAction
+  |LoginIdleAction

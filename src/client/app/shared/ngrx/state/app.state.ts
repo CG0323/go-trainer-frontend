@@ -96,4 +96,5 @@ export const getStones: any = compose(fromGo.getStones, getBoardState);
 export const getIsFirstProblem: any = compose(fromGo.getIsFirstProblem, getDirectoryState);
 export const getIsLastProblem: any = compose(fromGo.getIsLastProblem, getDirectoryState);
 export const getIsNotInProblem: any = compose(fromGo.getIsNotInProblem, getDirectoryState);
-export const getIsLoggedIn:any = compose(fromGo.getIsLoggedIn, getUserState);
+export const getLoginStatus:any = compose(fromGo.getLoginStatus, getUserState);
+export const getTurn:any = compose(fromGo.getTurn, getBoardState);

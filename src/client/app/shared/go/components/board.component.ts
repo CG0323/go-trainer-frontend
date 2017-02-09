@@ -19,6 +19,7 @@ export class BoardComponent {
     @Input() msgs:Message[];
     @Input() status:BoardStatus;
     @Input() stones:Stone[];
+    @Input() turn:number;
     @Output() boardClick = new EventEmitter<any>();
     dim: number = 19;                           
     lines = CoreService.getLines(19);                  
@@ -31,7 +32,7 @@ export class BoardComponent {
     }
 
     onClick(i:number,j:number) {
-      this.boardClick.emit({x:i,y:j});
+      this.boardClick.emit({x:i,y:j,c:this.turn});
     }
 
     getTrianglePoints(markup: any): string{
@@ -58,5 +59,14 @@ export class BoardComponent {
           return temp[0].c;
         }
       }
+    }
+
+    getStyleClass():string{
+      if(this.turn == 1){
+        return "empty-black";
+      }else{
+        return "empty-white";
+      }
+
     }
 }

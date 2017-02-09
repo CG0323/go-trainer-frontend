@@ -43,6 +43,20 @@ export function getStones(state$: Observable<IBoardState>) {
   return state$.select(state => state.stones);
 }
 
+export function getTurn(state$: Observable<IBoardState>) {
+  return state$.select(state => {
+    
+    let currentNode = state.currentNode;
+    if(!currentNode) return 0;
+    if(!(currentNode.children)) return 0;
+    if(!(currentNode.children[0])) return 0;
+    if(!(currentNode.children[0].move)) return 0;
+
+    return currentNode.children[0].move.c;
+
+  });
+}
+
 
 
 
